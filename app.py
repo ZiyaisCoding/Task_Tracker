@@ -18,6 +18,26 @@ def save_tasks(tasks):
     with open("tasks.json", "w") as f:
         json.dump(tasks,f,indent = 2)
 
+def parse_task_id(task_id):
+    try:
+        parsed_id = int(task_id)
+        if parsed_id <= 0:
+            print("Task ID must be a positive integer.")
+            return None
+        return parsed_id
+    except ValueError:
+        print("Task ID must be a positive integer.")
+        return None
+    
+def parse_description(description):
+    description = description.strip()
+
+    if not description:
+        print("Enter a valid description.")
+        return None
+
+    return description
+
 def add_task(description):
     tasks = load_tasks()
     if not tasks:
@@ -110,25 +130,53 @@ def main():
     command = sys.argv[1]
 
     if command == "add":
-        description = sys.argv[2]
+        if len(sys.argv) < 3:
+            print('Usage: python app.py add "description"')
+            return
+
+        description = parse_description(sys.argv[2])
+        if description is None:
+            return
         add_task(description)
 
     elif command == "update":
-        task_id = int(sys.argv[2])
-        description = sys.argv[3]
+        if len(sys.argv) < 4:
+            print('Usage: python app.py update <id> "description"')
+            return
+        task_id = parse_task_id(sys.argv[2])
+        if task_id is None:
+            return
+        description = parse_description(sys.argv[3])
+        if description is None:
+            return
         update_task(task_id, description)
 
     elif command == "delete":
-        task_id = int(sys.argv[2])
+        if len(sys.argv) < 3:
+            print('Usage: python app.py delete <id>')
+            return
+        task_id = parse_task_id(sys.argv[2])
+        if task_id is None:
+            return
         delete_task(task_id)
 
     elif command == "mark-in-progress":
-        task_id = int(sys.argv[2])
-        update_status(task_id,"in-progress")
+        if len(sys.argv) < 3:
+            print('Usage: python app.py mark-in-progress <id>')
+            return
+        task_id = parse_task_id(sys.argv[2])
+        if task_id is None:
+            return
+        update_status(task_id, "in-progress")
 
     elif command == "mark-done":
-        task_id = int(sys.argv[2])
-        update_status(task_id,"done")
+        if len(sys.argv) < 3:
+            print('Usage: python app.py mark-done <id>')
+            return
+        task_id = parse_task_id(sys.argv[2])
+        if task_id is None:
+            return
+        update_status(task_id, "done")
 
     elif command == "list":
         if len(sys.argv) == 2:
@@ -147,12 +195,6 @@ def main():
 
     else:
         print(f"Unknown command: {command}")
-
-
-
-
-
-
 
 if __name__ == "__main__":
     main()
