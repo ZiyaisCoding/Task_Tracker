@@ -4,16 +4,27 @@ import sys
 
 def load_tasks():
     try:
-        with open("tasks.json","r") as f:
-            return json.load(f)
+        with open("tasks.json", "r") as f:
+            tasks = json.load(f)
+
+        if not isinstance(tasks, list):
+            print("Error: tasks.json has an invalid structure.")
+            sys.exit(1)
+
+        return tasks
+
     except FileNotFoundError:
         initial_data = []
+
         with open("tasks.json", "w") as f:
             json.dump(initial_data, f, indent=2)
+
         print("Empty task database created.")
         return initial_data
-    
 
+    except json.JSONDecodeError:
+        print("Error: tasks.json contains invalid JSON.")
+        sys.exit(1)
 def save_tasks(tasks):
     with open("tasks.json", "w") as f:
         json.dump(tasks,f,indent = 2)
