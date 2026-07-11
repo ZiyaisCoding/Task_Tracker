@@ -1,53 +1,156 @@
 # Task Tracker CLI
 
-Task Tracker is a project used to track and manage your tasks. In this project, you will build a simple command line interface (CLI) to track what you need to do, what you have done, and what you are currently working on. 
+A simple command-line task management application built with Python. Tasks are stored locally in a JSON file and can be created, updated, deleted, filtered, and marked by status.
 
-This project will help you practice your programming skills, including working with the filesystem, handling user inputs, and building a simple CLI application.
+The project uses only Python's standard library and requires no external dependencies.
 
----
+## Features
+
+* Add new tasks
+* Update task descriptions
+* Delete tasks
+* Mark tasks as `in-progress`
+* Mark tasks as `done`
+* List all tasks
+* Filter tasks by status
+* Automatic JSON storage creation
+* CLI input validation
+* Invalid and corrupted JSON detection
 
 ## Requirements
 
-The application should run from the command line, accept user actions and inputs as arguments, and store the tasks in a JSON file. The user should be able to:
+* Python 3
 
-* Add, Update, and Delete tasks
-* Mark a task as in progress or done
-* List all tasks
-* List all tasks that are done
-* List all tasks that are not done
-* List all tasks that are in progress
+## Installation
 
-### Implementation Constraints
-* **Language:** You can use any programming language to build this project.
-* **Arguments:** Use positional arguments in the command line to accept user inputs.
-* **Storage:** Use a JSON file to store the tasks in the current directory. The JSON file should be created automatically if it does not exist.
-* **File System:** Use the native file system module of your programming language to interact with the JSON file.
-* **Dependencies:** Do not use any external libraries or frameworks to build this project.
-* **Robustness:** Ensure to handle errors and edge cases gracefully.
-
----
-
-## Example Usage
-
-Here is the list of commands and their expected usage:
+Clone the repository:
 
 ```bash
-# Adding a new task
-task-cli add "Buy groceries"
-# Output: Task added successfully (ID: 1)
+git clone git@github.com:ZiyaisCoding/Task_Tracker.git
+```
 
-# Updating and deleting tasks
-task-cli update 1 "Buy groceries and cook dinner"
-task-cli delete 1
+Move into the project directory:
 
-# Marking a task as in progress or done
-task-cli mark-in-progress 1
-task-cli mark-done 1
+```bash
+cd Task_Tracker
+```
 
-# Listing all tasks
-task-cli list
+No external dependencies need to be installed.
 
-# Listing tasks by status
-task-cli list done
-task-cli list todo
-task-cli list in-progress
+## Usage
+
+Run the application using:
+
+```bash
+python3 app.py <command> [arguments]
+```
+
+### Add a Task
+
+```bash
+python3 app.py add "Learn NumPy"
+```
+
+Output:
+
+```text
+Task added successfully (ID: 1).
+```
+
+### Update a Task
+
+```bash
+python3 app.py update 1 "Learn Pandas"
+```
+
+### Delete a Task
+
+```bash
+python3 app.py delete 1
+```
+
+### Mark a Task as In Progress
+
+```bash
+python3 app.py mark-in-progress 1
+```
+
+### Mark a Task as Done
+
+```bash
+python3 app.py mark-done 1
+```
+
+### List All Tasks
+
+```bash
+python3 app.py list
+```
+
+### Filter Tasks by Status
+
+```bash
+python3 app.py list todo
+python3 app.py list in-progress
+python3 app.py list done
+```
+
+## Task Data Structure
+
+Tasks are stored in `tasks.json` using the following structure:
+
+```json
+[
+  {
+    "id": 1,
+    "description": "Learn NumPy",
+    "status": "todo",
+    "createdAt": "2026-07-11T18:30:00",
+    "updatedAt": "2026-07-11T18:30:00"
+  }
+]
+```
+
+Supported task statuses are:
+
+* `todo`
+* `in-progress`
+* `done`
+
+The `tasks.json` file is automatically created when the application runs if it does not already exist.
+
+## Testing
+
+The project includes a shell-based CLI integration test script.
+
+Run:
+
+```bash
+chmod +x test_cli.sh
+./test_cli.sh
+```
+
+The test script checks:
+
+* Command validation
+* Task creation
+* Task updates
+* Task deletion
+* Status updates
+* Status filtering
+* ID generation
+* Empty JSON files
+* Malformed JSON
+* Invalid JSON structures
+* Automatic task database restoration
+
+## Built With
+
+* Python
+* JSON
+* Bash
+* Git
+
+## Project Goal
+
+This project was built to practice command-line application development, JSON persistence, filesystem operations, input validation, error handling, and integration testing using Python's standard library.
